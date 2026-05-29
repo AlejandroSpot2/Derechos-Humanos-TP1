@@ -1,0 +1,1008 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sala de crisis 2024 · Informe Mundial HRW</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23071015'/%3E%3Ctext x='8' y='38' fill='%2362dcff' font-family='monospace' font-size='20'%3EHRW%3C/text%3E%3C/svg%3E">
+  <style>
+    :root {
+      --bg: oklch(14% 0.02 250);
+      --surface: oklch(18% 0.025 250);
+      --surface-2: oklch(20% 0.028 250);
+      --fg: oklch(94% 0.02 85);
+      --muted: oklch(64% 0.03 250);
+      --border: oklch(29% 0.04 250);
+      --accent: oklch(78% 0.14 195);
+      --alert: oklch(62% 0.22 25);
+      --amber: oklch(78% 0.14 75);
+      --green: oklch(77% 0.16 140);
+      --accent-soft: color-mix(in oklch, var(--accent) 16%, transparent);
+      --alert-soft: color-mix(in oklch, var(--alert) 14%, transparent);
+      --amber-soft: color-mix(in oklch, var(--amber) 13%, transparent);
+      --font-display: ui-monospace, "JetBrains Mono", "IBM Plex Mono", "Cascadia Code", Menlo, monospace;
+      --font-body: ui-monospace, "JetBrains Mono", "IBM Plex Mono", "Cascadia Code", Menlo, monospace;
+      --gap-xs: 6px;
+      --gap-sm: 10px;
+      --gap-md: 16px;
+      --gap-lg: 24px;
+      --gap-xl: 40px;
+      --rail-w: 292px;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      -webkit-text-size-adjust: 100%;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 78% 12%, color-mix(in oklch, var(--alert) 18%, transparent), transparent 26rem),
+        radial-gradient(circle at 18% 78%, color-mix(in oklch, var(--accent) 12%, transparent), transparent 28rem),
+        var(--bg);
+      color: var(--fg);
+      font-family: var(--font-body);
+      font-size: 14px;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    p { text-wrap: pretty; }
+
+    h1, h2, h3 {
+      font-family: var(--font-display);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      text-wrap: balance;
+    }
+
+    button {
+      border: 0;
+      background: none;
+      color: inherit;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    button:focus-visible,
+    a:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    a { color: var(--accent); }
+    .num { font-variant-numeric: tabular-nums; }
+
+    .grid-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(color-mix(in oklch, var(--border) 40%, transparent) 1px, transparent 1px),
+        linear-gradient(90deg, color-mix(in oklch, var(--border) 40%, transparent) 1px, transparent 1px);
+      background-size: 48px 48px;
+      opacity: 0.25;
+    }
+
+    .scanlines {
+      pointer-events: none;
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        color-mix(in oklch, var(--fg) 3%, transparent) 2px,
+        color-mix(in oklch, var(--fg) 3%, transparent) 4px
+      );
+      opacity: 0.28;
+      mix-blend-mode: overlay;
+    }
+
+    .shell {
+      position: relative;
+      z-index: 1;
+      width: min(1440px, 100%);
+      margin: 0 auto;
+      padding: var(--gap-lg);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(220px, 360px);
+      gap: var(--gap-xl);
+      padding-bottom: var(--gap-xl);
+      border-bottom: 1px solid var(--border);
+      margin-bottom: var(--gap-lg);
+    }
+
+    .hero-kicker {
+      margin-bottom: var(--gap-sm);
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      margin-bottom: var(--gap-md);
+      color: var(--fg);
+      font-size: clamp(30px, 4.2vw, 50px);
+      line-height: 1.04;
+    }
+
+    .hero h1 span { color: var(--accent); }
+
+    .thesis {
+      max-width: 62ch;
+      margin-bottom: var(--gap-md);
+      padding-left: var(--gap-md);
+      border-left: 2px solid var(--amber);
+      color: color-mix(in oklch, var(--fg) 88%, var(--muted));
+      font-size: 15px;
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--gap-md);
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: 0.06em;
+    }
+
+    .tag {
+      border: 1px solid var(--border);
+      padding: 4px 10px;
+      color: var(--accent);
+    }
+
+    .ascii-map {
+      max-width: 100%;
+      overflow: hidden;
+      color: color-mix(in oklch, var(--accent) 72%, var(--muted));
+      font-size: 9px;
+      line-height: 1.15;
+      opacity: 0.88;
+      text-shadow: 0 0 12px color-mix(in oklch, var(--accent) 38%, transparent);
+      white-space: pre;
+    }
+
+    .ascii-map .hot { color: var(--alert); }
+    .ascii-map .warn { color: var(--amber); }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: var(--rail-w) minmax(0, 1fr);
+      gap: var(--gap-lg);
+      align-items: start;
+    }
+
+    .rail {
+      position: sticky;
+      top: var(--gap-lg);
+      border: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .rail-head {
+      padding: var(--gap-md);
+      border-bottom: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .exp-list { list-style: none; }
+
+    .exp-btn {
+      width: 100%;
+      display: grid;
+      gap: 4px;
+      padding: var(--gap-md);
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+      transition: background 140ms cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    .exp-btn:hover { background: color-mix(in oklch, var(--accent) 8%, var(--surface)); }
+
+    .exp-btn[aria-current="true"] {
+      border-left: 3px solid var(--accent);
+      background: var(--accent-soft);
+      padding-left: calc(var(--gap-md) - 3px);
+    }
+
+    .exp-id {
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+    }
+
+    .exp-title {
+      color: var(--fg);
+      font-size: 13px;
+    }
+
+    .exp-regions {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.35;
+    }
+
+    .rail-note {
+      padding: var(--gap-md);
+      color: color-mix(in oklch, var(--fg) 80%, var(--muted));
+      font-size: 12px;
+      border-top: 1px solid var(--border);
+    }
+
+    .main-panels {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: var(--gap-lg);
+    }
+
+    .panel {
+      border: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .panel-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--gap-md);
+      padding: var(--gap-sm) var(--gap-md);
+      border-bottom: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .panel-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .panel-dots i {
+      display: block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    .panel-dots i:nth-child(1) { background: var(--alert); }
+    .panel-dots i:nth-child(2) { background: var(--amber); }
+    .panel-dots i:nth-child(3) { background: var(--accent); }
+
+    .terminal-body {
+      min-height: 350px;
+      padding: var(--gap-md);
+      font-size: 13px;
+    }
+
+    .term-line { margin-bottom: var(--gap-sm); }
+    .term-prompt { color: var(--accent); }
+    .term-cmd { color: var(--fg); }
+    .term-out { color: var(--muted); padding-left: 1ch; }
+    .term-alert { color: var(--alert); }
+    .term-amber { color: var(--amber); }
+    .term-green { color: var(--green); }
+
+    .term-block {
+      margin: var(--gap-md) 0;
+      padding: var(--gap-md);
+      border: 1px dashed var(--border);
+      background: color-mix(in oklch, var(--bg) 58%, var(--surface));
+    }
+
+    .term-block h3 {
+      margin-bottom: var(--gap-sm);
+      color: var(--accent);
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .term-block p { color: color-mix(in oklch, var(--fg) 84%, var(--muted)); }
+
+    .term-meta {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--gap-sm);
+      margin: var(--gap-md) 0;
+    }
+
+    .term-meta-item {
+      border: 1px solid var(--border);
+      background: color-mix(in oklch, var(--bg) 54%, var(--surface));
+      padding: var(--gap-sm);
+      color: color-mix(in oklch, var(--fg) 82%, var(--muted));
+    }
+
+    .term-meta-item b {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--accent);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 8px;
+      height: 1em;
+      margin-left: 2px;
+      background: var(--accent);
+      vertical-align: text-bottom;
+      animation: blink 1s step-end infinite;
+    }
+
+    @keyframes blink { 50% { opacity: 0; } }
+
+    .constellation-wrap {
+      position: relative;
+      min-height: 330px;
+      padding: var(--gap-md);
+    }
+
+    .constellation-svg {
+      width: 100%;
+      height: auto;
+      min-height: 290px;
+    }
+
+    .const-link {
+      stroke: var(--border);
+      stroke-width: 1.3;
+      opacity: 0.62;
+    }
+
+    .const-node {
+      cursor: pointer;
+      transition: filter 140ms cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    .const-node:hover,
+    .const-node:focus { filter: brightness(1.35); }
+
+    .const-node circle {
+      fill: var(--surface-2);
+      stroke-width: 2;
+    }
+
+    .const-node.active circle {
+      fill: color-mix(in oklch, var(--accent) 10%, var(--surface-2));
+    }
+
+    .const-node text {
+      fill: var(--fg);
+      font-family: var(--font-display);
+      font-size: 11px;
+      text-anchor: middle;
+      pointer-events: none;
+    }
+
+    .node-pulse circle {
+      animation: nodePulse 1.8s ease-in-out infinite;
+    }
+
+    @keyframes nodePulse {
+      0%, 100% { filter: drop-shadow(0 0 0 transparent); }
+      50% { filter: drop-shadow(0 0 12px color-mix(in oklch, var(--accent) 70%, transparent)); }
+    }
+
+    .const-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--gap-sm);
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .leg-cyan::before,
+    .leg-alert::before,
+    .leg-amber::before {
+      content: "";
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      margin-right: 6px;
+      border-radius: 50%;
+      vertical-align: middle;
+    }
+
+    .leg-cyan::before { background: var(--accent); }
+    .leg-alert::before { background: var(--alert); }
+    .leg-amber::before { background: var(--amber); }
+
+    .memo {
+      border: 1px solid var(--border);
+      background: color-mix(in oklch, var(--surface) 92%, var(--amber) 8%);
+    }
+
+    .method-panel {
+      border: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .method-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1px;
+      background: var(--border);
+    }
+
+    .method-cell {
+      min-height: 150px;
+      padding: var(--gap-md);
+      background: var(--surface);
+    }
+
+    .method-cell h3 {
+      margin-bottom: var(--gap-sm);
+      color: var(--accent);
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .method-cell p {
+      color: color-mix(in oklch, var(--fg) 84%, var(--muted));
+      font-size: 13px;
+    }
+
+    .memo-label {
+      padding: var(--gap-sm) var(--gap-md);
+      border-bottom: 1px solid var(--border);
+      color: var(--amber);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .memo-inner {
+      display: grid;
+      grid-template-columns: minmax(220px, 0.88fr) minmax(0, 1.12fr);
+      gap: var(--gap-lg);
+      padding: var(--gap-lg);
+    }
+
+    .paper {
+      min-height: 246px;
+      padding: var(--gap-lg);
+      background: oklch(91% 0.035 90);
+      color: oklch(22% 0.02 250);
+      transform: rotate(-1.5deg);
+      box-shadow: 0 16px 60px rgb(0 0 0 / 0.32);
+    }
+
+    .paper b {
+      display: block;
+      margin-bottom: var(--gap-md);
+      color: oklch(42% 0.18 28);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .paper p {
+      font-size: clamp(20px, 2.8vw, 34px);
+      line-height: 1.14;
+      text-wrap: balance;
+    }
+
+    .memo-body {
+      display: grid;
+      gap: var(--gap-md);
+      align-content: center;
+      color: color-mix(in oklch, var(--fg) 88%, var(--muted));
+      font-size: 14px;
+    }
+
+    .memo-body h2 {
+      color: var(--fg);
+      font-size: clamp(24px, 3vw, 40px);
+      line-height: 1.05;
+    }
+
+    .memo-body p {
+      max-width: 78ch;
+    }
+
+    .site-foot {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: var(--gap-md);
+      margin-top: var(--gap-lg);
+      padding-top: var(--gap-md);
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .rail-toggle {
+      display: none;
+      width: 100%;
+      margin-bottom: var(--gap-md);
+      padding: var(--gap-md);
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--accent);
+      text-align: left;
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .cursor,
+      .node-pulse circle { animation: none !important; }
+    }
+
+    @media (max-width: 920px) {
+      .shell { padding: var(--gap-md); }
+      .hero { grid-template-columns: 1fr; }
+      .ascii-map { max-height: 146px; font-size: 8px; }
+      .workspace { grid-template-columns: 1fr; }
+      .rail { position: static; display: none; }
+      .rail.is-open { display: block; }
+      .rail-toggle { display: block; }
+      .memo-inner { grid-template-columns: 1fr; }
+      .paper { transform: none; }
+    }
+
+    @media (max-width: 560px) {
+      .shell { padding: var(--gap-sm); }
+      .hero { gap: var(--gap-lg); }
+      .meta-row { gap: var(--gap-sm); }
+      .tag { width: 100%; }
+      .terminal-body { font-size: 12px; }
+      .term-meta { grid-template-columns: 1fr; }
+      .panel-bar { align-items: flex-start; flex-direction: column; }
+      .constellation-wrap { padding: var(--gap-sm); }
+      .const-node text { font-size: 9.5px; }
+      .method-grid { grid-template-columns: 1fr; }
+      .site-foot { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="grid-bg" aria-hidden="true"></div>
+  <div class="scanlines" aria-hidden="true"></div>
+
+  <div class="shell">
+    <header class="hero">
+      <div>
+        <p class="hero-kicker">Informe Mundial 2025 · Human Rights Watch</p>
+        <h1>Sala de <span>crisis</span> 2024</h1>
+        <blockquote class="thesis">
+          Los derechos humanos pierden legitimidad cuando se defienden selectivamente. Si el principio cambia según el aliado, deja de ser principio.
+        </blockquote>
+        <div class="meta-row">
+          <span class="tag">Lectura · “2024: un año para la reflexión”</span>
+          <span>Universidad Iberoamericana</span>
+          <span class="num">Expedientes: 05</span>
+        </div>
+      </div>
+
+      <pre class="ascii-map" aria-hidden="true">    ·  ·    <span class="hot">●</span>     ·      ·  <span class="warn">▲</span>
+  ·    ╲  │  ╱    ·   <span class="hot">●</span>    ·
+·───────●──┼──●───────────·
+  ·    ╱  │  ╲    ·       ·
+    ·  <span class="warn">▲</span>  ·  <span class="hot">●</span>  ·    ·  ·  ●
+
+      MAPA DE FRENTE · ATMÓSFERA
+      Gaza · Sudán · Ucrania · Haití
+      Bangladesh · Venezuela · Kenia
+      Georgia · Corea del Sur · Siria</pre>
+    </header>
+
+    <button type="button" class="rail-toggle" id="rail-toggle" aria-expanded="false" aria-controls="exp-rail">
+      Expedientes · <span id="rail-toggle-label">01 Resistencia popular</span>
+    </button>
+
+    <div class="workspace">
+      <aside class="rail" id="exp-rail" aria-label="Expedientes temáticos">
+        <div class="rail-head">Índice de expedientes</div>
+        <ul class="exp-list" id="exp-list"></ul>
+        <p class="rail-note">
+          El mapa instala la escala global; el expediente organiza la lectura; la constelación muestra quién viola, quién permite y quién puede exigir cuentas.
+        </p>
+      </aside>
+
+      <div class="main-panels">
+        <section class="panel" aria-labelledby="terminal-title">
+          <div class="panel-bar">
+            <span id="terminal-title">Terminal de evidencia</span>
+            <div class="panel-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+          </div>
+          <div class="terminal-body" id="terminal-body" role="region" aria-live="polite"></div>
+        </section>
+
+        <section class="panel" aria-labelledby="const-title">
+          <div class="panel-bar">
+            <span id="const-title">Constelación de responsabilidad</span>
+            <span class="num" id="const-status">Nodo: —</span>
+          </div>
+          <div class="constellation-wrap">
+            <svg class="constellation-svg" viewBox="0 0 720 300" role="img" aria-label="Red de actores: Estados, aliados, normas, tribunales, sociedad civil y víctimas">
+              <g class="links" id="const-links"></g>
+              <g class="nodes" id="const-nodes"></g>
+            </svg>
+            <div class="const-legend">
+              <span class="leg-cyan">Normas / instituciones</span>
+              <span class="leg-alert">Violación / daño</span>
+              <span class="leg-amber">Selectividad / complicidad</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="method-panel" aria-labelledby="method-title">
+          <div class="panel-bar">
+            <span id="method-title">Método de lectura</span>
+            <span>resumen · análisis · postura</span>
+          </div>
+          <div class="method-grid">
+            <div class="method-cell">
+              <h3>1. Evidencia</h3>
+              <p>El trabajo parte de los cinco ejes del texto de HRW y conserva países, actores y problemas concretos para demostrar lectura del informe completo.</p>
+            </div>
+            <div class="method-cell">
+              <h3>2. Concepto</h3>
+              <p>Cada expediente se vincula con principios del curso: universalidad, no discriminación, protección civil, Estado democrático y rendición de cuentas.</p>
+            </div>
+            <div class="method-cell">
+              <h3>3. Aporte personal</h3>
+              <p>La tesis sostiene que el doble rasero no invalida los derechos humanos; exige defenderlos con más coherencia cuando hacerlo resulta políticamente costoso.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="memo">
+          <p class="memo-label">Memo · reflexión personal</p>
+          <div class="memo-inner">
+            <div class="paper">
+              <b>Aporte personal</b>
+              <p>La universalidad no se demuestra en los casos fáciles, sino cuando exige criticar al aliado.</p>
+            </div>
+            <div class="memo-body">
+              <h2>Del informe a la postura</h2>
+              <p>
+                Mi lectura del informe no es que 2024 haya sido simplemente un año “oscuro”. Es más exigente: fue un año que mostró cuánto se debilitan los derechos humanos cuando se usan como argumento selectivo. Condenar a un adversario y guardar silencio ante un aliado convierte la dignidad humana en instrumento político.
+              </p>
+              <p>
+                Por eso, la salida no puede ser abandonar el lenguaje de los derechos por considerarlo hipócrita. La salida es reclamar coherencia: proteger a civiles sin importar el bando, defender a migrantes aunque no sean populares, sostener a la sociedad civil cuando incomoda y fortalecer tribunales e investigaciones aunque cuestionen a Estados poderosos.
+              </p>
+              <p class="term-green">
+                Cierre: cuando se protegen los derechos, la humanidad prospera; cuando se niegan, el costo se mide en vidas.
+              </p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <footer class="site-foot">
+      <span>Fuente base: Human Rights Watch, <em>Informe Mundial 2025</em>, “2024: un año para la reflexión”.</span>
+      <span class="num">Formato: sitio estático · listo para GitHub Pages</span>
+    </footer>
+  </div>
+
+  <script>
+    (function () {
+      var EXPEDIENTES = [
+        {
+          id: "01",
+          title: "Resistencia popular",
+          regions: "Bangladesh · Venezuela · Kenia · Georgia · Corea del Sur",
+          pages: "PDF del profesor, pp. 1-3",
+          concepts: "participación, democracia, libertad de reunión, sociedad civil",
+          question: "¿Qué vale una elección si después no hay controles ciudadanos ni derechos protegidos?",
+          cmd: "open expediente/01-resistencia",
+          summary: "El informe presenta la resistencia ciudadana como una fuerza política real: no sustituye a las instituciones, pero aparece cuando elecciones, partidos o gobiernos dejan de responder a la población.",
+          blocks: [
+            {
+              h: "Hallazgo del informe",
+              t: "En distintos contextos, la movilización pública enfrentó corrupción, represión, deterioro democrático, manipulación electoral o intentos de concentrar poder. Bangladesh, Venezuela, Kenia, Georgia y Corea del Sur muestran que la presión social puede abrir límites al abuso."
+            },
+            {
+              h: "Análisis",
+              t: "La democracia que describe HRW no se agota en votar. Una elección puede ser libre y aun así derivar en políticas discriminatorias; también puede ser manipulada y empujar a la ciudadanía a defender el conteo, la libertad de reunión y la rendición de cuentas."
+            },
+            {
+              h: "Aporte personal",
+              t: "Este expediente me obliga a pensar la participación como una responsabilidad continua. Defender derechos no es solo tener opinión: implica sostener memoria pública, cuidar el derecho a protestar y no normalizar que la estabilidad valga más que la dignidad."
+            }
+          ],
+          nodes: ["victimas", "sociedad", "normas"]
+        },
+        {
+          id: "02",
+          title: "Conflictos y normas corrosivas",
+          regions: "Gaza · Sudán · Ucrania · Haití",
+          pages: "PDF del profesor, pp. 4-5",
+          concepts: "derecho internacional humanitario, protección civil, crímenes de guerra, interdependencia",
+          question: "¿Qué sucede con la universalidad cuando la vida civil se protege según el bando?",
+          cmd: "open expediente/02-conflictos",
+          summary: "Gaza, Sudán, Ucrania y Haití aparecen como pruebas de estrés para el derecho internacional humanitario: cuando la protección civil se negocia o se posterga, la norma se erosiona.",
+          blocks: [
+            {
+              h: "Hallazgo del informe",
+              t: "HRW documenta ataques contra civiles, desplazamientos forzados, violencia sexual, privación de bienes necesarios para sobrevivir, ataques a infraestructura y respuestas internacionales insuficientes. El daño no se limita al momento de la violencia: rompe salud, educación, hogar y protección."
+            },
+            {
+              h: "Análisis",
+              t: "La corrosión normativa ocurre cuando gobiernos y aliados tratan las reglas como opcionales. Armar, financiar, bloquear investigaciones o mirar hacia otro lado también forma parte del problema, aunque no siempre aparezca como violencia directa."
+            },
+            {
+              h: "Aporte personal",
+              t: "El punto más incómodo es que la indignación selectiva también abandona víctimas. Si la protección civil depende de simpatías políticas, entonces ninguna persona está realmente protegida por principios universales."
+            }
+          ],
+          nodes: ["estados", "aliados", "normas", "victimas"]
+        },
+        {
+          id: "03",
+          title: "Límites de regímenes autocráticos",
+          regions: "Siria · Rusia · fragilidad del poder represivo",
+          pages: "PDF del profesor, pp. 5-7",
+          concepts: "autoritarismo, impunidad, memoria, garantías de no repetición",
+          question: "¿Puede una transición llamarse avance si no produce verdad, justicia ni protección para víctimas?",
+          cmd: "open expediente/03-autocracia",
+          summary: "El informe usa Siria para mostrar que incluso los regímenes que parecen permanentes dependen de alianzas, recursos y miedo. La represión puede durar mucho, pero no es invulnerable.",
+          blocks: [
+            {
+              h: "Hallazgo del informe",
+              t: "La caída del gobierno de Bashar al-Asad abre preguntas sobre justicia, retorno seguro de personas refugiadas y responsabilidades por tortura, desapariciones, ejecuciones, hambre como arma y ataques contra civiles."
+            },
+            {
+              h: "Análisis",
+              t: "El autoritarismo no se sostiene solo desde dentro. También depende de apoyos internacionales, vetos, recursos militares y silencios diplomáticos. Cuando esos apoyos cambian, aparece la fragilidad que antes parecía imposible."
+            },
+            {
+              h: "Aporte personal",
+              t: "La caída de un régimen no equivale a reparación. Sin memoria, archivos, tribunales y garantías de no repetición, una transición puede terminar reemplazando el miedo anterior por una impunidad nueva."
+            }
+          ],
+          nodes: ["estados", "aliados", "tribunales", "sociedad", "victimas"]
+        },
+        {
+          id: "04",
+          title: "Enseñanzas y liderazgo",
+          regions: "Doble rasero · democracias liberales · México y Gambia",
+          pages: "PDF del profesor, pp. 7-8",
+          concepts: "universalidad, legitimidad, no discriminación, liderazgo multilateral",
+          question: "¿Cuándo una democracia deja de defender derechos y empieza a administrarlos según conveniencia?",
+          cmd: "open expediente/04-liderazgo",
+          summary: "HRW cuestiona a democracias que invocan derechos humanos de forma selectiva. También identifica oportunidades de liderazgo cuando Estados impulsan instrumentos multilaterales de justicia y educación.",
+          blocks: [
+            {
+              h: "Hallazgo del informe",
+              t: "El texto critica el doble criterio de Estados que condenan abusos en unos casos y los relativizan en otros por alianzas estratégicas. Al mismo tiempo, destaca esfuerzos como el impulso de México y Gambia a una convención sobre crímenes de lesa humanidad."
+            },
+            {
+              h: "Análisis",
+              t: "La selectividad erosiona legitimidad porque permite a gobiernos autoritarios decir que los derechos son solo discurso de poder. El liderazgo real no consiste en hablar más fuerte, sino en aceptar reglas incluso cuando incomodan intereses propios."
+            },
+            {
+              h: "Aporte personal",
+              t: "Aquí está mi tesis central: si defiendo derechos solo cuando coinciden con mi bando, no estoy defendiendo derechos. Estoy defendiendo una preferencia política con vocabulario moral."
+            }
+          ],
+          nodes: ["aliados", "normas", "sociedad", "estados", "tribunales"]
+        },
+        {
+          id: "05",
+          title: "Arquitectura de rendición de cuentas",
+          regions: "CPI · CIJ · ONU · sociedad civil · prensa · víctimas",
+          pages: "PDF del profesor, pp. 9-11",
+          concepts: "rendición de cuentas, acceso a justicia, reparación, controles independientes",
+          question: "¿Qué instituciones y voces impiden que el sufrimiento quede convertido en estadística?",
+          cmd: "open expediente/05-rendicion",
+          summary: "La rendición de cuentas aparece como una arquitectura: tribunales, investigaciones, organizaciones civiles, medios y víctimas se necesitan mutuamente para limitar la impunidad.",
+          blocks: [
+            {
+              h: "Hallazgo del informe",
+              t: "La Corte Penal Internacional, la Corte Internacional de Justicia, comisiones de investigación de la ONU y organizaciones de la sociedad civil son centrales cuando los gobiernos no quieren o no pueden investigar abusos graves."
+            },
+            {
+              h: "Análisis",
+              t: "Estas instituciones no son perfectas ni rápidas, pero su ausencia deja a las víctimas frente al poder sin contrapesos. Por eso los ataques contra la CPI, los recortes a mandatos de derechos humanos y la persecución de ONG no son detalles administrativos: son estrategias de impunidad."
+            },
+            {
+              h: "Aporte personal",
+              t: "Fortalecer esta arquitectura significa financiarla, proteger a quienes documentan abusos y tomar en serio la voz de víctimas. La justicia internacional puede parecer lejana, pero es una forma concreta de afirmar que el daño importa."
+            }
+          ],
+          nodes: ["tribunales", "normas", "sociedad", "victimas", "estados"]
+        }
+      ];
+
+      var NODE_DEFS = {
+        estados: { label: "Estados\nque violan", x: 120, y: 80, tone: "alert" },
+        aliados: { label: "Aliados que\npermiten", x: 120, y: 220, tone: "amber" },
+        normas: { label: "Normas\ninternacionales", x: 360, y: 50, tone: "cyan" },
+        tribunales: { label: "CPI / CIJ\n/ ONU", x: 360, y: 250, tone: "cyan" },
+        sociedad: { label: "Sociedad\ncivil y prensa", x: 600, y: 100, tone: "cyan" },
+        victimas: { label: "Víctimas", x: 600, y: 200, tone: "alert" }
+      };
+
+      var LINKS = [
+        ["estados", "aliados"], ["estados", "normas"], ["aliados", "normas"],
+        ["normas", "tribunales"], ["tribunales", "sociedad"], ["sociedad", "victimas"],
+        ["estados", "victimas"], ["aliados", "victimas"], ["normas", "sociedad"]
+      ];
+
+      var listEl = document.getElementById("exp-list");
+      var termEl = document.getElementById("terminal-body");
+      var linksG = document.getElementById("const-links");
+      var nodesG = document.getElementById("const-nodes");
+      var statusEl = document.getElementById("const-status");
+      var railToggle = document.getElementById("rail-toggle");
+      var railToggleLabel = document.getElementById("rail-toggle-label");
+      var rail = document.getElementById("exp-rail");
+
+      function el(tag, attrs, text) {
+        var node = document.createElement(tag);
+        if (attrs) {
+          Object.keys(attrs).forEach(function (key) {
+            if (key === "class") node.className = attrs[key];
+            else node.setAttribute(key, attrs[key]);
+          });
+        }
+        if (text != null) node.textContent = text;
+        return node;
+      }
+
+      function escapeHtml(value) {
+        return String(value)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+      }
+
+      function buildRail() {
+        EXPEDIENTES.forEach(function (exp, index) {
+          var li = el("li");
+          var button = el("button", {
+            type: "button",
+            class: "exp-btn",
+            "data-index": String(index),
+            "aria-current": index === 0 ? "true" : "false"
+          });
+          button.appendChild(el("span", { class: "exp-id" }, "EXP-" + exp.id));
+          button.appendChild(el("span", { class: "exp-title" }, exp.title));
+          button.appendChild(el("span", { class: "exp-regions" }, exp.regions));
+          button.addEventListener("click", function () { selectExp(index); });
+          li.appendChild(button);
+          listEl.appendChild(li);
+        });
+      }
+
+      function renderTerminal(exp) {
+        var html = "";
+        html += '<p class="term-line"><span class="term-prompt">sala@hrw2024:~$</span> <span class="term-cmd">' + escapeHtml(exp.cmd) + '</span></p>';
+        html += '<p class="term-out term-alert">[OK] Expediente cargado · ' + escapeHtml(exp.regions) + '</p>';
+        html += '<p class="term-out">' + escapeHtml(exp.summary) + '</p>';
+        html += '<div class="term-meta">';
+        html += '<div class="term-meta-item"><b>Ubicación</b>' + escapeHtml(exp.pages) + '</div>';
+        html += '<div class="term-meta-item"><b>Conceptos del curso</b>' + escapeHtml(exp.concepts) + '</div>';
+        html += '<div class="term-meta-item"><b>Pregunta crítica</b>' + escapeHtml(exp.question) + '</div>';
+        html += '</div>';
+        exp.blocks.forEach(function (block) {
+          html += '<div class="term-block"><h3>' + escapeHtml(block.h) + '</h3><p>' + escapeHtml(block.t) + '</p></div>';
+        });
+        html += '<p class="term-line term-amber">lectura transversal: universalidad, no discriminación, protección civil y rendición de cuentas.</p>';
+        html += '<p class="term-line"><span class="term-prompt">sala@hrw2024:~$</span> <span class="cursor" aria-hidden="true"></span></p>';
+        termEl.innerHTML = html;
+      }
+
+      function strokeFor(tone) {
+        if (tone === "alert") return "var(--alert)";
+        if (tone === "amber") return "var(--amber)";
+        return "var(--accent)";
+      }
+
+      function buildConstellation(highlightIds) {
+        linksG.innerHTML = "";
+        nodesG.innerHTML = "";
+
+        LINKS.forEach(function (pair) {
+          var a = NODE_DEFS[pair[0]];
+          var b = NODE_DEFS[pair[1]];
+          if (!a || !b) return;
+          var line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+          line.setAttribute("x1", a.x);
+          line.setAttribute("y1", a.y);
+          line.setAttribute("x2", b.x);
+          line.setAttribute("y2", b.y);
+          line.setAttribute("class", "const-link");
+          if (highlightIds.indexOf(pair[0]) >= 0 && highlightIds.indexOf(pair[1]) >= 0) {
+            line.style.opacity = "1";
+            line.style.stroke = "var(--accent)";
+          }
+          linksG.appendChild(line);
+        });
+
+        Object.keys(NODE_DEFS).forEach(function (id) {
+          var def = NODE_DEFS[id];
+          var active = highlightIds.indexOf(id) >= 0;
+          var group = document.createElementNS("http://www.w3.org/2000/svg", "g");
+          group.setAttribute("class", "const-node" + (active ? " active node-pulse" : ""));
+          group.setAttribute("tabindex", "0");
+          group.setAttribute("role", "button");
+          group.setAttribute("aria-label", def.label.replace("\n", " "));
+
+          var circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+          circle.setAttribute("cx", def.x);
+          circle.setAttribute("cy", def.y);
+          circle.setAttribute("r", active ? 28 : 24);
+          circle.setAttribute("stroke", strokeFor(def.tone));
+
+          var text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+          text.setAttribute("x", def.x);
+          text.setAttribute("y", def.y + 4);
+          def.label.split("\n").forEach(function (line, index) {
+            var tspan = document.createElementNS("http://www.w3.org/2000/svg", "tspan");
+            tspan.setAttribute("x", def.x);
+            tspan.setAttribute("dy", index === 0 ? 0 : 12);
+            tspan.textContent = line;
+            text.appendChild(tspan);
+          });
+
+          group.appendChild(circle);
+          group.appendChild(text);
+          group.addEventListener("mouseenter", function () {
+            statusEl.textContent = "Nodo: " + def.label.replace("\n", " ");
+          });
+          group.addEventListener("focus", function () {
+            statusEl.textContent = "Nodo: " + def.label.replace("\n", " ");
+          });
+          nodesG.appendChild(group);
+        });
+      }
+
+      function selectExp(index) {
+        var exp = EXPEDIENTES[index];
+        document.querySelectorAll(".exp-btn").forEach(function (button, buttonIndex) {
+          button.setAttribute("aria-current", buttonIndex === index ? "true" : "false");
+        });
+        renderTerminal(exp);
+        buildConstellation(exp.nodes);
+        railToggleLabel.textContent = exp.id + " " + exp.title;
+        if (window.innerWidth <= 920) {
+          rail.classList.remove("is-open");
+          railToggle.setAttribute("aria-expanded", "false");
+        }
+      }
+
+      railToggle.addEventListener("click", function () {
+        var open = rail.classList.toggle("is-open");
+        railToggle.setAttribute("aria-expanded", open ? "true" : "false");
+      });
+
+      buildRail();
+      selectExp(0);
+    })();
+  </script>
+</body>
+</html>

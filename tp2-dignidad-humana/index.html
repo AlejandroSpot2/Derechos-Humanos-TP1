@@ -1,0 +1,951 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>TP2 · La dignidad humana</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2315110d'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23d8b56d' stroke-width='2'/%3E%3Cpath d='M16 8v16M9 16h14' stroke='%23c43b2f' stroke-width='2'/%3E%3C/svg%3E">
+  <style>
+    :root {
+      --ink: #17120e;
+      --charcoal: #211d19;
+      --charcoal-2: #2f2924;
+      --paper: #e7d7b9;
+      --paper-2: #cbb98f;
+      --paper-3: #9f8d67;
+      --red: #a42d25;
+      --red-2: #d34a3f;
+      --cyan: #5cb2b7;
+      --gold: #d5aa54;
+      --white: #fff4d8;
+      --muted: #bcae8f;
+      --line: rgba(231, 215, 185, .22);
+      --line-dark: rgba(23, 18, 14, .22);
+      --mono: "Cascadia Code", "SFMono-Regular", "Consolas", "Liberation Mono", monospace;
+      --serif: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+      --sans: "Aptos", "Gill Sans", "Franklin Gothic Book", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      background: #100d0a;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--white);
+      font: 16px/1.5 var(--sans);
+      background:
+        radial-gradient(circle at 16% 8%, rgba(164, 45, 37, .23), transparent 30rem),
+        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(255,255,255,.022) 1px, transparent 1px),
+        #100d0a;
+      background-size: auto, 44px 44px, 44px 44px, auto;
+      letter-spacing: 0;
+    }
+
+    a {
+      color: inherit;
+      text-decoration-color: rgba(213, 170, 84, .55);
+      text-underline-offset: .2em;
+    }
+
+    button {
+      font: inherit;
+      color: inherit;
+    }
+
+    .progress {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 20;
+      height: 4px;
+      background: linear-gradient(90deg, var(--red), var(--gold), var(--cyan));
+      transform: scaleX(0);
+      transform-origin: left;
+    }
+
+    .page {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 18px 0 44px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 0 18px;
+      color: var(--muted);
+      font: 12px/1.2 var(--mono);
+      text-transform: uppercase;
+    }
+
+    .topbar nav {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .print-button {
+      border: 1px solid rgba(213, 170, 84, .45);
+      background: rgba(231, 215, 185, .08);
+      padding: 8px 10px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    .sheet {
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+      background:
+        linear-gradient(90deg, rgba(23, 18, 14, .14) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(23, 18, 14, .13) 1px, transparent 1px),
+        linear-gradient(135deg, #eadabd, #c8b58e 58%, #927f5d);
+      background-size: 28px 28px, 28px 28px, auto;
+      color: var(--ink);
+      border: 1px solid rgba(213, 170, 84, .38);
+      box-shadow: 0 22px 80px rgba(0, 0, 0, .38);
+    }
+
+    .sheet::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: .26;
+      background-image:
+        radial-gradient(circle at 22% 18%, rgba(23,18,14,.18) 0 1px, transparent 1px),
+        radial-gradient(circle at 68% 76%, rgba(164,45,37,.25) 0 1px, transparent 1px);
+      background-size: 9px 9px, 13px 13px;
+      mix-blend-mode: multiply;
+    }
+
+    .sheet > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero {
+      position: relative;
+      min-height: clamp(720px, 92vh, 1000px);
+      display: grid;
+      grid-template-columns: 1fr;
+      isolation: isolate;
+    }
+
+    .hero-art {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+
+    .hero-art img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      object-position: center;
+      filter: saturate(.95) contrast(1.04);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background:
+        linear-gradient(90deg, rgba(16, 13, 10, .66), rgba(16, 13, 10, .18) 48%, rgba(16, 13, 10, .5)),
+        linear-gradient(0deg, rgba(16, 13, 10, .82), rgba(16, 13, 10, .14) 36%, rgba(16, 13, 10, .3) 70%, rgba(16, 13, 10, .62));
+    }
+
+    .hero-copy {
+      position: relative;
+      z-index: 2;
+      align-self: end;
+      padding: clamp(28px, 7vw, 82px);
+      color: var(--white);
+      max-width: 860px;
+      text-shadow: 0 2px 18px rgba(0,0,0,.38);
+    }
+
+    .folio {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 18px;
+      margin: 0 0 26px;
+      color: #dcc99d;
+      font: 12px/1.35 var(--mono);
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    h1 {
+      margin-bottom: 16px;
+      color: #fff1ca;
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: clamp(58px, 13vw, 164px);
+      line-height: .84;
+      letter-spacing: 0;
+      text-shadow: 0 4px 28px rgba(0,0,0,.72);
+    }
+
+    .subtitle {
+      margin: 0 0 22px;
+      max-width: 760px;
+      font-family: var(--serif);
+      font-size: clamp(23px, 4.2vw, 54px);
+      line-height: 1.04;
+      color: #f7e6bc;
+    }
+
+    .thesis-line {
+      display: grid;
+      grid-template-columns: 92px minmax(0, 1fr);
+      gap: 18px;
+      max-width: 760px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255,244,216,.42);
+      font-size: clamp(16px, 2vw, 22px);
+    }
+
+    .thesis-line strong {
+      color: var(--gold);
+      font: 12px/1.2 var(--mono);
+      text-transform: uppercase;
+    }
+
+    .section {
+      position: relative;
+      padding: clamp(34px, 6vw, 72px);
+      border-top: 1px solid var(--line-dark);
+    }
+
+    .section-dark {
+      color: var(--white);
+      background:
+        linear-gradient(90deg, rgba(0,0,0,.74), rgba(0,0,0,.12)),
+        #15110e;
+    }
+
+    .section-title {
+      display: grid;
+      grid-template-columns: 76px minmax(0, 1fr);
+      align-items: baseline;
+      gap: 18px;
+      margin-bottom: 30px;
+    }
+
+    .section-title .num {
+      color: var(--red);
+      font: 13px/1 var(--mono);
+      letter-spacing: 0;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: clamp(33px, 6.5vw, 76px);
+      line-height: .95;
+      letter-spacing: 0;
+    }
+
+    .lead-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(280px, .95fr);
+      gap: clamp(24px, 5vw, 72px);
+      align-items: start;
+    }
+
+    .definition {
+      font-family: var(--serif);
+      font-size: clamp(24px, 4.2vw, 56px);
+      line-height: 1.02;
+    }
+
+    .definition mark {
+      color: var(--red);
+      background: transparent;
+    }
+
+    .compact {
+      display: grid;
+      gap: 14px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .compact li {
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+      padding: 12px 0;
+      border-top: 1px solid var(--line-dark);
+    }
+
+    .compact b {
+      color: var(--red);
+      font: 13px/1.35 var(--mono);
+    }
+
+    .quote-strip {
+      margin-top: 34px;
+      padding: 18px 20px;
+      border-left: 5px solid var(--red);
+      background: rgba(255, 244, 216, .33);
+      font: 18px/1.35 var(--serif);
+    }
+
+    .quote-strip cite {
+      display: block;
+      margin-top: 10px;
+      color: #5b4a36;
+      font: 12px/1.3 var(--mono);
+      font-style: normal;
+    }
+
+    .layers {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      border: 1px solid var(--line-dark);
+    }
+
+    .layer {
+      min-height: 320px;
+      padding: 28px;
+      border-right: 1px solid var(--line-dark);
+      background:
+        linear-gradient(180deg, rgba(255,244,216,.32), rgba(255,244,216,.03)),
+        repeating-linear-gradient(90deg, rgba(23,18,14,.06) 0 1px, transparent 1px 12px);
+    }
+
+    .layer:last-child {
+      border-right: 0;
+    }
+
+    .layer h3 {
+      margin-bottom: 16px;
+      color: var(--red);
+      font-family: var(--serif);
+      font-size: 36px;
+      line-height: 1;
+    }
+
+    .layer p {
+      margin-bottom: 18px;
+      font-size: 19px;
+    }
+
+    .micro {
+      color: #5f513e;
+      font: 12px/1.45 var(--mono);
+      text-transform: uppercase;
+    }
+
+    .activation {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(120px, 1fr));
+      gap: 1px;
+      background: var(--line-dark);
+      border: 1px solid var(--line-dark);
+    }
+
+    .node {
+      min-height: 190px;
+      padding: 18px;
+      background: rgba(255,244,216,.28);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .node::before {
+      content: attr(data-mark);
+      color: var(--red);
+      font: 19px/1 var(--mono);
+    }
+
+    .node h3 {
+      margin: 0 0 8px;
+      font: 20px/1.05 var(--serif);
+    }
+
+    .node p {
+      margin: 0;
+      color: #554938;
+      font-size: 14px;
+      line-height: 1.35;
+    }
+
+    .wounds {
+      min-height: 650px;
+      display: grid;
+      align-items: stretch;
+      padding: 0;
+      color: var(--white);
+      background: #111;
+    }
+
+    .wounds img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      opacity: .8;
+    }
+
+    .wounds::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(0,0,0,.26), rgba(0,0,0,.82) 52%, rgba(0,0,0,.94)),
+        linear-gradient(0deg, rgba(0,0,0,.72), rgba(0,0,0,.04) 40%, rgba(0,0,0,.42));
+    }
+
+    .wounds-content {
+      position: relative;
+      z-index: 1;
+      width: min(620px, 100%);
+      margin-left: auto;
+      padding: clamp(34px, 6vw, 72px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 650px;
+    }
+
+    .wounds h2 {
+      margin-bottom: 20px;
+      font-family: var(--serif);
+      font-size: clamp(40px, 7vw, 82px);
+      line-height: .9;
+    }
+
+    .strike-list {
+      margin: 22px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 8px;
+      font: 17px/1.35 var(--mono);
+    }
+
+    .strike-list li {
+      display: grid;
+      grid-template-columns: 22px minmax(0, 1fr);
+      gap: 10px;
+      padding: 10px 0;
+      border-top: 1px solid rgba(255,244,216,.22);
+    }
+
+    .strike-list li::before {
+      content: "×";
+      color: var(--red-2);
+    }
+
+    .test-grid {
+      display: grid;
+      grid-template-columns: minmax(280px, .72fr) minmax(0, 1.28fr);
+      gap: clamp(26px, 6vw, 72px);
+      align-items: start;
+    }
+
+    .test-question {
+      position: sticky;
+      top: 24px;
+      padding: 24px;
+      color: var(--white);
+      background: var(--charcoal);
+      border: 1px solid rgba(23,18,14,.34);
+      outline: 1px solid rgba(213,170,84,.32);
+      outline-offset: -8px;
+    }
+
+    .test-question h2 {
+      margin-bottom: 16px;
+      font-family: var(--serif);
+      font-size: clamp(32px, 5vw, 60px);
+      line-height: .95;
+    }
+
+    .test-question p {
+      margin-bottom: 0;
+      color: #dfcfaa;
+      font-size: 18px;
+    }
+
+    .decision {
+      display: grid;
+      gap: 14px;
+      counter-reset: decision;
+    }
+
+    .decision-row {
+      counter-increment: decision;
+      display: grid;
+      grid-template-columns: 48px minmax(0, 1fr);
+      gap: 18px;
+      padding: 20px 0;
+      border-top: 1px solid var(--line-dark);
+    }
+
+    .decision-row::before {
+      content: counter(decision, decimal-leading-zero);
+      color: var(--red);
+      font: 13px/1.2 var(--mono);
+      padding-top: 6px;
+    }
+
+    .decision-row h3 {
+      margin-bottom: 6px;
+      font: 27px/1.05 var(--serif);
+    }
+
+    .decision-row p {
+      margin: 0;
+      font-size: 18px;
+      color: #4c4235;
+    }
+
+    .closing {
+      padding: clamp(38px, 8vw, 92px);
+      color: var(--white);
+      background:
+        linear-gradient(90deg, rgba(164,45,37,.36), transparent 36%),
+        radial-gradient(circle at 78% 30%, rgba(92,178,183,.16), transparent 28rem),
+        var(--charcoal);
+    }
+
+    .closing blockquote {
+      margin: 0;
+      max-width: 1050px;
+      font-family: var(--serif);
+      font-size: clamp(34px, 7.2vw, 96px);
+      line-height: .95;
+    }
+
+    .closing p {
+      margin: 28px 0 0;
+      max-width: 720px;
+      color: #ddcda7;
+      font-size: 19px;
+    }
+
+    .sources {
+      padding: 36px clamp(28px, 6vw, 72px) 52px;
+      background: #d7c69f;
+      color: var(--ink);
+      border-top: 1px solid var(--line-dark);
+    }
+
+    .sources h2 {
+      margin-bottom: 18px;
+      font: 28px/1 var(--serif);
+    }
+
+    .sources ol {
+      margin: 0;
+      padding-left: 22px;
+      columns: 2;
+      column-gap: 44px;
+    }
+
+    .sources li {
+      break-inside: avoid;
+      margin: 0 0 12px;
+      font-size: 14px;
+      line-height: 1.35;
+    }
+
+    .source-note {
+      margin-top: 22px;
+      color: #5d513f;
+      font: 12px/1.4 var(--mono);
+    }
+
+    .ascii-band {
+      overflow: hidden;
+      padding: 14px 0;
+      color: rgba(255,244,216,.55);
+      background: #15110d;
+      border-top: 1px solid rgba(255,244,216,.12);
+      border-bottom: 1px solid rgba(255,244,216,.12);
+      font: 12px/1 var(--mono);
+      white-space: nowrap;
+    }
+
+    .ascii-band span {
+      display: inline-block;
+      min-width: 1400px;
+      animation: drift 42s linear infinite;
+    }
+
+    @keyframes drift {
+      from { transform: translateX(0); }
+      to { transform: translateX(-520px); }
+    }
+
+    @media (max-width: 900px) {
+      .page {
+        width: min(100% - 18px, 1180px);
+      }
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .hero {
+        min-height: 760px;
+      }
+
+      .hero-art img {
+        object-position: 50% 36%;
+      }
+
+      .hero-copy,
+      .section,
+      .closing {
+        padding: 28px;
+      }
+
+      .thesis-line,
+      .section-title,
+      .lead-grid,
+      .test-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .layers,
+      .activation {
+        grid-template-columns: 1fr;
+      }
+
+      .layer {
+        min-height: unset;
+        border-right: 0;
+        border-bottom: 1px solid var(--line-dark);
+      }
+
+      .node {
+        min-height: 150px;
+      }
+
+      .wounds {
+        min-height: 720px;
+      }
+
+      .wounds::after {
+        background:
+          linear-gradient(0deg, rgba(0,0,0,.92), rgba(0,0,0,.28) 58%, rgba(0,0,0,.18)),
+          linear-gradient(90deg, rgba(0,0,0,.35), rgba(0,0,0,.2));
+      }
+
+      .wounds-content {
+        margin: auto 0 0;
+        min-height: 720px;
+        justify-content: end;
+      }
+
+      .test-question {
+        position: static;
+      }
+
+      .sources ol {
+        columns: 1;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .hero {
+        min-height: 700px;
+      }
+
+      .hero-copy,
+      .section,
+      .closing,
+      .wounds-content,
+      .sources {
+        padding: 22px;
+      }
+
+      h1 {
+        font-size: clamp(52px, 18vw, 88px);
+      }
+
+      .subtitle,
+      .definition,
+      .section-title h2,
+      .wounds h2,
+      .closing blockquote {
+        overflow-wrap: anywhere;
+      }
+
+      .decision-row,
+      .compact li {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .ascii-band span { animation: none; }
+    }
+
+    @media print {
+      body {
+        background: #fff;
+        color: #000;
+      }
+
+      .progress,
+      .topbar,
+      .ascii-band,
+      .print-button {
+        display: none;
+      }
+
+      .page {
+        width: 100%;
+        padding: 0;
+      }
+
+      .sheet {
+        border: 0;
+        box-shadow: none;
+      }
+
+      .hero {
+        min-height: 82vh;
+      }
+
+      .section,
+      .closing,
+      .sources {
+        break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress" id="progress" aria-hidden="true"></div>
+
+  <div class="page">
+    <header class="topbar">
+      <span>Derechos Humanos · TP2 Infografía · Entrega 2 de junio, 20:00</span>
+      <nav aria-label="Acciones">
+        <a href="../">Entregas</a>
+        <a href="../tp1-informe-hrw/">TP1</a>
+        <button class="print-button" type="button" id="print-button">Exportar / imprimir</button>
+      </nav>
+    </header>
+
+    <main class="sheet">
+      <section class="hero" aria-labelledby="title">
+        <figure class="hero-art" aria-hidden="true">
+          <img src="assets/dignidad-nucleo.png" alt="">
+        </figure>
+
+        <div class="hero-copy">
+          <p class="folio">
+            <span>Archivo 02</span>
+            <span>La persona como centro</span>
+            <span>Investigación · síntesis · postura</span>
+          </p>
+          <h1 id="title">La dignidad humana</h1>
+          <p class="subtitle">Anatomía de lo irreductible</p>
+          <div class="thesis-line">
+            <strong>Tesis</strong>
+            <p>El valor de una persona no depende del permiso del Estado, de su utilidad social, de su nacionalidad ni de la opinión pública. La dignidad se reconoce; los derechos la protegen.</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="ascii-band" aria-hidden="true">
+        <span>++ persona ++ derechos ++ igualdad ++ no discriminacion ++ libertad ++ integridad ++ memoria ++ reparacion ++ persona ++ derechos ++ igualdad ++ no discriminacion ++ libertad ++ integridad ++ memoria ++ reparacion ++</span>
+      </div>
+
+      <section class="section" aria-labelledby="nucleo-title">
+        <div class="section-title">
+          <span class="num">01</span>
+          <h2 id="nucleo-title">Núcleo</h2>
+        </div>
+
+        <div class="lead-grid">
+          <p class="definition">
+            La dignidad humana es el <mark>valor inherente</mark> que impide tratar a cualquier persona como objeto, instrumento, expediente, enemigo o residuo social.
+          </p>
+
+          <ul class="compact">
+            <li><b>Antes</b><span>No nace porque una autoridad la otorgue; pertenece a cada persona por ser humana.</span></li>
+            <li><b>Igual</b><span>No aumenta ni disminuye por origen, edad, género, condición económica, salud, conducta o nacionalidad.</span></li>
+            <li><b>Exigible</b><span>Se vuelve criterio para interpretar leyes, diseñar políticas y reparar daños.</span></li>
+          </ul>
+        </div>
+
+        <div class="quote-strip">
+          “libres e iguales en dignidad y derechos”
+          <cite>Declaración Universal de Derechos Humanos, artículo 1.</cite>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="capas-title">
+        <div class="section-title">
+          <span class="num">02</span>
+          <h2 id="capas-title">Tres capas de sentido</h2>
+        </div>
+
+        <div class="layers">
+          <article class="layer">
+            <h3>Ética</h3>
+            <p>La persona no es medio disponible para fines políticos, económicos, familiares o institucionales.</p>
+            <span class="micro">Pregunta: ¿se reconoce humanidad completa?</span>
+          </article>
+          <article class="layer">
+            <h3>Jurídica</h3>
+            <p>Funda derechos iguales, inalienables e interdependientes; por eso ninguna autoridad puede seleccionar quién merece protección.</p>
+            <span class="micro">Pregunta: ¿hay derecho exigible?</span>
+          </article>
+          <article class="layer">
+            <h3>Política</h3>
+            <p>Limita al poder y exige condiciones reales de vida: seguridad, salud, educación, participación, justicia y reparación.</p>
+            <span class="micro">Pregunta: ¿el poder protege o administra exclusiones?</span>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="activa-title">
+        <div class="section-title">
+          <span class="num">03</span>
+          <h2 id="activa-title">Lo que activa</h2>
+        </div>
+
+        <div class="activation" aria-label="Principios conectados con la dignidad humana">
+          <article class="node" data-mark="+"><div><h3>Universalidad</h3><p>Toda persona cuenta, en todo lugar, sin autorización previa.</p></div></article>
+          <article class="node" data-mark="="><div><h3>Igualdad</h3><p>Mismo valor humano; trato diferenciado solo si corrige desigualdades reales.</p></div></article>
+          <article class="node" data-mark="×"><div><h3>No discriminación</h3><p>Ningún rasgo personal justifica negar derechos o acceso.</p></div></article>
+          <article class="node" data-mark="∞"><div><h3>Interdependencia</h3><p>Sin derechos sociales, los derechos civiles quedan vacíos; y viceversa.</p></div></article>
+          <article class="node" data-mark="§"><div><h3>Garantía</h3><p>El Estado debe respetar, proteger, promover y hacer efectivos los derechos.</p></div></article>
+          <article class="node" data-mark="↺"><div><h3>Reparación</h3><p>Cuando la dignidad es negada, no basta nombrar el daño: hay que repararlo.</p></div></article>
+        </div>
+      </section>
+
+      <section class="wounds" aria-labelledby="niega-title">
+        <img src="assets/dignidad-negada.png" alt="" loading="lazy">
+        <div class="wounds-content">
+          <p class="folio">
+            <span>Zona de alerta</span>
+            <span>Cuando la persona se vuelve cosa</span>
+          </p>
+          <h2 id="niega-title">Lo que la niega</h2>
+          <p>Una violación a la dignidad no siempre empieza con violencia visible. A veces empieza con una etiqueta que reduce a alguien: ilegal, carga, amenaza, estadística, enemigo, caso perdido.</p>
+          <ul class="strike-list">
+            <li>Tortura y tratos crueles, inhumanos o degradantes.</li>
+            <li>Discriminación directa, indirecta o estructural.</li>
+            <li>Pobreza extrema y exclusión social.</li>
+            <li>Violencia contra mujeres, niñas, migrantes, pueblos indígenas y grupos históricamente marginados.</li>
+            <li>Impunidad: no prevenir, no investigar, no sancionar, no reparar.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="test-title">
+        <div class="test-grid">
+          <aside class="test-question">
+            <h2 id="test-title">Prueba de dignidad</h2>
+            <p>Antes de justificar una norma, práctica o política pública, conviene hacer una pregunta sencilla: ¿la persona está siendo tratada como fin o como instrumento?</p>
+          </aside>
+
+          <div class="decision">
+            <article class="decision-row">
+              <div>
+                <h3>¿La persona conserva voz?</h3>
+                <p>Si no puede participar, reclamar o ser escuchada, la dignidad se vuelve decorativa.</p>
+              </div>
+            </article>
+            <article class="decision-row">
+              <div>
+                <h3>¿La diferencia se usa para excluir?</h3>
+                <p>Origen, género, discapacidad, edad, religión, orientación sexual o situación migratoria no pueden funcionar como permiso para negar derechos.</p>
+              </div>
+            </article>
+            <article class="decision-row">
+              <div>
+                <h3>¿Hay condiciones materiales mínimas?</h3>
+                <p>Una vida digna necesita algo más que ausencia de agresión: requiere salud, educación, vivienda, seguridad y posibilidades reales.</p>
+              </div>
+            </article>
+            <article class="decision-row">
+              <div>
+                <h3>¿El daño encuentra respuesta?</h3>
+                <p>La dignidad también se mide después de la violación: verdad, justicia, reparación y garantías de no repetición.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="closing" aria-labelledby="cierre-title">
+        <blockquote id="cierre-title">
+          La dignidad humana no es una frase bonita del derecho: es el límite que impide que el poder decida quién cuenta como persona.
+        </blockquote>
+        <p>Por eso defender derechos humanos no es solo defender normas; es impedir que la vida de alguien sea tratada como desechable.</p>
+      </section>
+
+      <section class="sources" aria-labelledby="fuentes-title">
+        <h2 id="fuentes-title">Fuentes consultadas</h2>
+        <ol>
+          <li>Naciones Unidas, <a href="https://www.un.org/es/about-us/universal-declaration-of-human-rights">Declaración Universal de Derechos Humanos</a>, artículos 1, 22 y 23.</li>
+          <li>ONU-DH, <a href="https://www.ohchr.org/es/instruments-mechanisms/instruments/vienna-declaration-and-programme-action">Declaración y Programa de Acción de Viena</a>, 1993, preámbulo y párrafo 5.</li>
+          <li>Cámara de Diputados, <a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/CPEUM.pdf">Constitución Política de los Estados Unidos Mexicanos</a>, artículo 1.</li>
+          <li>Comisión de Derechos Humanos del Distrito Federal, <em>Curso de Derecho Internacional de los Derechos Humanos. Guía de estudio y antología</em>, 2009.</li>
+          <li>Comisión de Derechos Humanos del Distrito Federal, <em>Conceptualización y praxis de los derechos humanos en el contexto contemporáneo</em>, 2007.</li>
+          <li>Christian Courtis, <em>Legislación y políticas antidiscriminatorias en México: el inicio de un largo camino</em>, IIJ-UNAM, 2006.</li>
+        </ol>
+        <p class="source-note">Visuales generados con imagegen para este trabajo. El texto académico se mantuvo fuera de las imágenes para conservar legibilidad y trazabilidad de fuentes.</p>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    (function () {
+      var progress = document.getElementById("progress");
+      var printButton = document.getElementById("print-button");
+
+      function updateProgress() {
+        var max = document.documentElement.scrollHeight - window.innerHeight;
+        var ratio = max > 0 ? window.scrollY / max : 0;
+        progress.style.transform = "scaleX(" + Math.max(0, Math.min(1, ratio)) + ")";
+      }
+
+      window.addEventListener("scroll", updateProgress, { passive: true });
+      window.addEventListener("resize", updateProgress);
+      updateProgress();
+
+      if (printButton) {
+        printButton.addEventListener("click", function () {
+          window.print();
+        });
+      }
+    }());
+  </script>
+</body>
+</html>

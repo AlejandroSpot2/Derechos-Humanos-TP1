@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Opción A · Infografía raster</title>
+  <style>
+    :root {
+      --paper: #f7e6bc;
+      --ink: #17120e;
+      --red: #b4352b;
+      --cyan: #66b9bc;
+      --gold: #d8b466;
+      --mono: "Cascadia Code", "Consolas", monospace;
+      --serif: "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+      --sans: "Aptos", "Gill Sans", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background: #0d0b08;
+      color: var(--paper);
+      font-family: var(--sans);
+    }
+
+    body {
+      display: grid;
+      place-items: start center;
+      padding: 24px;
+    }
+
+    .poster {
+      position: relative;
+      width: min(1080px, 100%);
+      aspect-ratio: 1024 / 1792;
+      overflow: hidden;
+      background: #111;
+      box-shadow: 0 28px 100px rgba(0,0,0,.55);
+    }
+
+    .poster img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .poster::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(0deg, rgba(0,0,0,.22), rgba(0,0,0,.02) 36%, rgba(0,0,0,.15)),
+        radial-gradient(circle at 50% 24%, transparent 0 18%, rgba(0,0,0,.2) 38%, rgba(0,0,0,.03) 64%);
+    }
+
+    .layer {
+      position: absolute;
+      z-index: 2;
+    }
+
+    .kicker {
+      left: 8%;
+      top: 3.5%;
+      right: 8%;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      color: #4e3f2b;
+      font: 700 clamp(10px, 1.4vw, 15px)/1.2 var(--mono);
+      text-transform: uppercase;
+    }
+
+    h1 {
+      left: 8%;
+      top: 5.1%;
+      max-width: 72%;
+      margin: 0;
+      color: #1a120b;
+      font: 900 clamp(42px, 7.2vw, 84px)/.84 var(--serif);
+      letter-spacing: 0;
+      text-transform: uppercase;
+      text-shadow: 0 1px 0 rgba(255,244,216,.45);
+    }
+
+    .thesis {
+      left: 8%;
+      top: 12.6%;
+      width: 46%;
+      color: #201810;
+      padding: 10px 12px;
+      background: rgba(247, 230, 188, .72);
+      border-left: 4px solid var(--red);
+      font: 800 clamp(10px, 1.18vw, 14px)/1.22 var(--sans);
+    }
+
+    .axioms {
+      right: 8%;
+      top: 12.8%;
+      width: 25%;
+      display: grid;
+      gap: 6px;
+      color: #2b2117;
+      padding: 8px 10px;
+      background: rgba(247, 230, 188, .72);
+      font: 800 clamp(8px, .92vw, 11px)/1.15 var(--mono);
+      text-transform: uppercase;
+    }
+
+    .axioms span {
+      padding-left: 12px;
+      border-left: 4px solid var(--red);
+    }
+
+    .card {
+      top: 48.4%;
+      width: 25.6%;
+      min-height: 15.7%;
+      color: #251a10;
+      font-size: clamp(13px, 1.45vw, 17px);
+      line-height: 1.25;
+    }
+
+    .card h2 {
+      margin: 0 0 8px;
+      color: var(--red);
+      font: 900 clamp(23px, 3vw, 39px)/.95 var(--serif);
+      letter-spacing: 0;
+    }
+
+    .card p {
+      margin: 0;
+      font-weight: 650;
+    }
+
+    .card small {
+      display: block;
+      margin-top: 12px;
+      color: #6a5536;
+      font: 700 clamp(8px, 1vw, 12px)/1.3 var(--mono);
+      text-transform: uppercase;
+    }
+
+    .c1 { left: 8.5%; }
+    .c2 { left: 37%; }
+    .c3 { left: 66%; }
+
+    .warning {
+      left: 8%;
+      top: 69.7%;
+      width: 84%;
+      color: #ead9b0;
+      display: grid;
+      grid-template-columns: 28% 1fr;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .warning h2 {
+      margin: 0;
+      color: #ffe9b3;
+      font: 900 clamp(30px, 5.2vw, 70px)/.88 var(--serif);
+    }
+
+    .warning ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      columns: 2;
+      column-gap: 20px;
+      font: 700 clamp(11px, 1.35vw, 16px)/1.25 var(--mono);
+    }
+
+    .warning li {
+      break-inside: avoid;
+      margin-bottom: 8px;
+    }
+
+    .warning li::before {
+      content: "× ";
+      color: var(--red);
+    }
+
+    .closing {
+      left: 8%;
+      right: 24%;
+      top: 84.2%;
+      color: #251a10;
+      font: 900 clamp(28px, 4.5vw, 60px)/.96 var(--serif);
+      letter-spacing: 0;
+    }
+
+    .sources {
+      left: 9%;
+      right: 9%;
+      bottom: 3.4%;
+      color: #3c3021;
+      font: 700 clamp(8px, .92vw, 11px)/1.35 var(--mono);
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 760px) {
+      body { padding: 8px; }
+      .poster { width: 100%; }
+      .warning { grid-template-columns: 1fr; gap: 8px; }
+      .warning ul { columns: 1; }
+    }
+  </style>
+</head>
+<body>
+  <article class="poster" aria-label="Infografía raster sobre dignidad humana">
+    <img src="assets/imagegen-poster-base.png" alt="">
+    <div class="layer kicker"><span>TP2 · Dignidad humana</span><span>Imagen final + texto real</span></div>
+    <h1 class="layer">La dignidad humana</h1>
+    <p class="layer thesis">Valor inherente de toda persona: no depende del Estado, la nacionalidad, el mérito, la utilidad o la opinión pública.</p>
+    <div class="layer axioms">
+      <span>No se concede</span>
+      <span>No se pierde</span>
+      <span>Obliga a proteger</span>
+    </div>
+
+    <section class="layer card c1">
+      <h2>Núcleo</h2>
+      <p>Impide reducir a alguien a objeto, expediente, enemigo, carga o estadística.</p>
+      <small>DUDH, art. 1</small>
+    </section>
+    <section class="layer card c2">
+      <h2>Capas</h2>
+      <p>Ética: persona como fin. Jurídica: derechos iguales. Política: límite al poder.</p>
+      <small>Viena 1993</small>
+    </section>
+    <section class="layer card c3">
+      <h2>Estado</h2>
+      <p>Debe respetar, proteger, garantizar, promover y reparar cuando la dignidad es negada.</p>
+      <small>Constitución, art. 1</small>
+    </section>
+
+    <section class="layer warning">
+      <h2>Se niega cuando...</h2>
+      <ul>
+        <li>hay tortura o trato degradante</li>
+        <li>la diferencia se usa para excluir</li>
+        <li>la pobreza extrema se normaliza</li>
+        <li>el daño queda sin investigación</li>
+        <li>la persona pierde voz pública</li>
+        <li>el poder decide quién cuenta</li>
+      </ul>
+    </section>
+
+    <div class="layer closing">La dignidad es el límite que impide que el poder decida quién cuenta como persona.</div>
+    <div class="layer sources">Fuentes: DUDH · Viena 1993 · Constitución mexicana art. 1 · CDHDF/CDHCM · Courtis</div>
+  </article>
+</body>
+</html>

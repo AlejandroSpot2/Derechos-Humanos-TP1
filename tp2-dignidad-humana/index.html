@@ -200,8 +200,10 @@
     .card {
       top: 50.6%;
       width: 25.7%;
-      min-height: 13%;
+      height: 16.4%;
       color: #1a120b;
+      display: flex;
+      flex-direction: column;
     }
 
     .c1 { left: 7.7%; }
@@ -209,30 +211,65 @@
     .c3 { left: 66.1%; }
 
     .card h2 {
-      margin: 0 0 9px;
+      margin: 0 0 clamp(3px, .75cqw, 9px);
       color: var(--red);
-      font: 950 clamp(10px, 3.4cqw, 36px)/.95 var(--serif);
+      font: 950 clamp(10px, 3.25cqw, 35px)/.95 var(--serif);
       letter-spacing: 0;
     }
 
-    .card p {
+    .card-lead {
       margin: 0;
       max-width: 92%;
-      font: 850 clamp(5.5px, 1.5cqw, 16px)/1.18 var(--sans);
+      font: 900 clamp(5.6px, 1.34cqw, 14.5px)/1.14 var(--sans);
+    }
+
+    .card-points {
+      display: grid;
+      gap: clamp(2px, .56cqw, 6px);
+      max-width: 92%;
+      margin: clamp(4px, .82cqw, 9px) 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .card-points li {
+      position: relative;
+      padding-left: clamp(5px, .95cqw, 10px);
+      color: #261a10;
+      font: 820 clamp(4.8px, 1.08cqw, 11.8px)/1.2 var(--sans);
+    }
+
+    .card-points li::before {
+      content: "+";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--red);
+      font-weight: 950;
+    }
+
+    .card-question {
+      max-width: 92%;
+      margin: auto 0 0;
+      padding-top: clamp(5px, .86cqw, 10px);
+      border-top: 1px solid rgba(173, 51, 42, .34);
+      color: #5a4428;
+      font: 900 clamp(4.2px, .98cqw, 10.8px)/1.22 var(--mono);
+      text-transform: uppercase;
     }
 
     .card cite {
       display: block;
-      margin-top: 12px;
+      margin-top: clamp(4px, .72cqw, 8px);
       color: #6c5637;
-      font: 800 clamp(4px, .9cqw, 10px)/1.2 var(--mono);
+      font: 850 clamp(4px, .92cqw, 10px)/1.2 var(--mono);
       font-style: normal;
       text-transform: uppercase;
     }
 
     .warning-title {
       left: 7.5%;
-      top: 70.7%;
+      top: 69.6%;
       width: 31%;
       margin: 0;
       color: #fff0c8;
@@ -242,21 +279,27 @@
     }
 
     .warning-list {
-      left: 39%;
-      top: 70.4%;
-      right: 7.8%;
+      left: 34.8%;
+      top: 69.65%;
+      right: 6.7%;
       margin: 0;
-      padding: 0;
+      padding: clamp(7px, 1.05cqw, 13px) clamp(8px, 1.18cqw, 14px);
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: clamp(3px, .85cqw, 9px) clamp(8px, 1.7cqw, 18px);
+      gap: clamp(4px, .78cqw, 9px) clamp(9px, 1.5cqw, 18px);
       color: #f5e5bd;
+      background: rgba(13, 10, 8, .7);
+      border: 1px solid rgba(248, 231, 191, .24);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, .34);
       list-style: none;
-      font: 850 clamp(5px, 1.1cqw, 12px)/1.22 var(--mono);
+      font: 900 clamp(6px, 1.22cqw, 13.4px)/1.22 var(--mono);
+      text-shadow: 0 1px 5px rgba(0, 0, 0, .8);
     }
 
     .warning-list li {
       break-inside: avoid;
+      background: linear-gradient(90deg, rgba(255, 240, 200, .06), transparent);
+      padding: clamp(1px, .35cqw, 4px) 0;
     }
 
     .warning-list li::before {
@@ -326,7 +369,7 @@
 
       .warning-list {
         grid-template-columns: 1fr;
-        gap: 4px;
+        gap: 2px;
       }
     }
 
@@ -397,19 +440,37 @@
 
         <section class="layer card c1">
           <h2>Núcleo</h2>
-          <p>Impide reducir a alguien a objeto, expediente, enemigo, carga o estadística.</p>
+          <p class="card-lead">Valor inherente de toda persona.</p>
+          <ul class="card-points">
+            <li>No se concede por autoridad.</li>
+            <li>No depende de mérito, origen o utilidad.</li>
+            <li>Impide reducir vidas a expediente o estadística.</li>
+          </ul>
+          <p class="card-question">Pregunta: ¿se reconoce humanidad completa?</p>
           <cite>DUDH, art. 1</cite>
         </section>
 
         <section class="layer card c2">
           <h2>Capas</h2>
-          <p>Ética: persona como fin. Jurídica: derechos iguales. Política: límite al poder.</p>
+          <p class="card-lead">Tres planos inseparables.</p>
+          <ul class="card-points">
+            <li>Ética: la persona es fin, no instrumento.</li>
+            <li>Jurídica: derechos iguales y exigibles.</li>
+            <li>Política: límite real al abuso de poder.</li>
+          </ul>
+          <p class="card-question">Pregunta: ¿protege todos los planos?</p>
           <cite>Viena 1993</cite>
         </section>
 
         <section class="layer card c3">
           <h2>Estado</h2>
-          <p>Debe respetar, proteger, garantizar, promover y reparar cuando la dignidad es negada.</p>
+          <p class="card-lead">La dignidad exige acción pública.</p>
+          <ul class="card-points">
+            <li>Respetar: no vulnerar derechos.</li>
+            <li>Proteger: impedir abusos de terceros.</li>
+            <li>Garantizar y reparar el daño.</li>
+          </ul>
+          <p class="card-question">Pregunta: ¿hay justicia y reparación?</p>
           <cite>Constitución, art. 1</cite>
         </section>
 
